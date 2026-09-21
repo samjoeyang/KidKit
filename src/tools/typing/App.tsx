@@ -59,14 +59,16 @@ export default function App() {
   useEffect(() => primeVoices(), [])
 
   // 载入单词时：自动朗读 + 重置展示 + 换吉祥物（换词 / 换分类）
+  // 注意：点「开始」之前不朗读 —— 页面刚打开时没有用户手势，
+  // 浏览器会以 not-allowed 拒绝朗读（这正是「没声音也没报错」的原因之一）。
   useEffect(() => {
     if (!word) return
     setMascot(MASCOTS[Math.floor(Math.random() * MASCOTS.length)])
     setZhLabel(' ')
     setFeedback(' ')
-    speak(word.en)
+    if (started) speak(word.en)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [word?.en])
+  }, [word?.en, started])
 
   /* ---------------- 彩带庆祝 ---------------- */
   function burstConfetti() {
