@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>朗读诊断 · KidKit</title>
+    <style>
+      :root { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; }
+      body { max-width: 760px; margin: 0 auto; padding: 28px 18px 60px; color: #1e2a3a; line-height: 1.7; }
+      h1 { font-size: 22px; margin: 0 0 6px; }
+      p.sub { color: #6b7a94; margin: 0 0 22px; font-size: 14px; }
+      section { border: 1px solid #e2ebf7; border-radius: 14px; padding: 16px 18px; margin-bottom: 16px; background: #fbfdff; }
+      h2 { font-size: 15px; margin: 0 0 10px; }
+      button { font: inherit; font-size: 15px; padding: 10px 18px; margin: 0 8px 8px 0; border: none;
+        border-radius: 10px; background: #2563eb; color: #fff; cursor: pointer; }
+      button.alt { background: #fff; color: #1e2a3a; border: 1.5px solid #cfe0f5; }
+      button:hover { filter: brightness(1.06); }
+      table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+      th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid #e8eef8; }
+      th { color: #6b7a94; font-weight: 600; }
+      tr.is-default td { background: #eef7ff; }
+      #log { font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; white-space: pre-wrap;
+        background: #fff; border: 1px solid #e8eef8; border-radius: 10px; padding: 12px;
+        max-height: 320px; overflow: auto; margin: 0; }
+      .warn { color: #b45309; font-weight: 600; }
+      .bad { color: #b91c1c; font-weight: 600; }
+      .ok { color: #047857; font-weight: 600; }
+      .kv { font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
+    </style>
+  </head>
+  <body>
+    <h1>🔊 单词朗读诊断</h1>
+    <p class="sub">
+      用你平时测试 KidKit 的同一个浏览器打开这个文件，依次点下面的按钮，把「诊断结果」整段复制反馈即可。
+    </p>
+
+    <section>
+      <h2>1. 环境</h2>
+      <div id="env" class="kv">检测中…</div>
+    </section>
+
+    <section>
+      <h2>2. 系统里的语音（getVoices）</h2>
+      <div style="margin-bottom: 10px">
+        <button class="alt" id="refresh">刷新语音列表</button>
+      </div>
+      <table>
+        <thead>
+          <tr><th>名称</th><th>语言</th><th>默认</th><th>本地</th></tr>
+        </thead>
+        <tbody id="voices"><tr><td colspan="4">—</td></tr></tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>3. 试听</h2>
+      <button id="playDefault">朗读 cat（不指定语音，浏览器自选）</button>
+      <button id="playEnUs" class="alt">朗读 cat（指定 en-US 语音）</button>
+      <button id="clear" class="alt">清空日志</button>
+      <p style="margin: 8px 0 0; font-size: 14px; color: #6b7a94">
+        点完请留意<b>有没有声音</b>，下面会记录 start / end / error 等事件。
+      </p>
+    </section>
+
+    <section>
+      <h2>4. 诊断结果（请整段复制）</h2>
+      <pre id="log">（等待操作…）</pre>
+    </section>
+
+    <script>
+      const logEl = document.getElementById('log');
+      const lines = [];
+
+      function log(msg) {
+        const t = new Date().toLocaleTimeString('zh-CN', { hour12: false });
+        lines.push(`[${t}] ${msg}`);
+        logEl.innerHTML = lines.join('\n');
+      }
+
+      function flag() {
+        const s = window.speechSynthesis;
+        return `speaking=${s.speaking} pending=${s.pending} paused=${s.paused}`;
+      }
+
+      /* ---------- 环境 ---------- */
+      const hasSpeech = 'speechSynthesis' in window;
+      document.getElementById('env').innerHTML = [
+        `浏览器    : ${navigator.userAgent}`,
+        `安全上下文: ${window.isSecureContext}`,
+        `朗读 API  : ${hasSpeech ? '存在' : '<span class="bad">不存在</span>'}`,
+        `用户手势  : ${navigator.userActivation ? navigator.userActivation.hasBeenActive : '未知'}`,
+      ].join('<br>');
+
+      /* ---------- 语音列表 ---------- */
+      let voices = [];
+      function renderVoices() {
+        voices = hasSpeech ? window.speechSynthesis.getVoices() : [];
+        const body = document.getElementById('voices');
+        if (!voices.length) {
+          body.innerHTML =
+            '<tr><td colspan="4" class="bad">没有任何可用语音 —— 这就是没声音的原因，需要在系统里安装/启用英语语音</td></tr>';
+          return;
+        }
+        body.innerHTML = voices
+          .map(
+            (v) =>
+              `<tr class="${v.default ? 'is-default' : ''}"><td>${v.name}</td><td>${v.lang}</td>` +
+              `<td>${v.default ? '✓' : ''}</td><td>${v.localService ? '✓' : ''}</td></tr>`
+          )
+          .join('');
+      }
+
+      if (hasSpeech) {
+        renderVoices();
+        // 语音列表是异步加载的，加载完成后再渲染一次
+        window.speechSynthesis.addEventListener('voiceschanged', renderVoices);
+      }
+
+      document.getElementById('refresh').onclick = () => {
+        renderVoices();
+        log(`刷新语音列表：共 ${voices.length} 个`);
+      };
+
+      /* ---------- 朗读 ---------- */
+      function makeUtterance(text, useVoice) {
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'en-US';
+        if (useVoice) {
+          const english = voices.filter((v) => v.lang.toLowerCase().startsWith('en'));
+          const picked =
+            english.find((v) => v.default) ||
+            english.find((v) => v.lang.replace('_', '-').toLowerCase() === 'en-us') ||
+            english[0];
+          if (picked) {
+            u.voice = picked;
+            log(`指定语音：${picked.name} / ${picked.lang}`);
+          } else {
+            log('<span class="warn">没有找到英文语音，退化为不指定语音</span>');
+          }
+        }
+        const tag = useVoice ? '指定语音' : '不指定语音';
+        ['start', 'end', 'pause', 'resume'].forEach((type) =>
+          u.addEventListener(type, () => log(`${tag} → ${type}  ${flag()}`))
+        );
+        u.addEventListener('error', (e) => log(`${tag} → <span class="bad">error: ${e.error}</span>`));
+        return u;
+      }
+
+      function play(useVoice) {
+        if (!hasSpeech) {
+          log('<span class="bad">浏览器不支持 speechSynthesis</span>');
+          return;
+        }
+        renderVoices();
+        const s = window.speechSynthesis;
+        log(`--- 点击朗读（${useVoice ? '指定语音' : '不指定语音'}）开始，之前 ${flag()} ---`);
+        try {
+          s.cancel();
+          s.resume();
+          s.speak(makeUtterance('cat', useVoice));
+          log(`speak() 已调用，之后 ${flag()}`);
+        } catch (e) {
+          log(`<span class="bad">speak() 抛异常：${e}</span>`);
+        }
+        setTimeout(() => log(`250ms 后 ${flag()}`), 250);
+        setTimeout(() => log(`1.5s 后 ${flag()}`), 1500);
+      }
+
+      document.getElementById('playDefault').onclick = () => play(false);
+      document.getElementById('playEnUs').onclick = () => play(true);
+      document.getElementById('clear').onclick = () => {
+        lines.length = 0;
+        logEl.textContent = '（已清空）';
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,106 @@
+:root {
+    --paper: #faf6ee;
+    --paper-deep: #f2ebdd;
+    --ink: #2f2a24;
+    --ink-soft: #6f675c;
+    --cinnabar: #a03b2e;
+    --cinnabar-soft: #c25b4c;
+    --gold: #b98a3c;
+    --border: #e3d9c6;
+    --card: #fffdf8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Songti SC", "Noto Serif SC", "STSong", serif;
+    background: var(--paper);
+    background-image: radial-gradient(circle at 20% 10%, rgba(185,138,60,.06), transparent 40%),
+                      radial-gradient(circle at 85% 80%, rgba(160,59,46,.05), transparent 45%);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+  header { text-align: center; padding: 44px 16px 20px; }
+  header .seal {
+    display:inline-block; background: var(--cinnabar); color:#fff;
+    font-size: 13px; letter-spacing: 6px; padding: 6px 10px 6px 16px;
+    border-radius: 4px; margin-bottom: 14px;
+  }
+  h1 { font-size: 34px; font-weight: 700; letter-spacing: 10px; }
+  h1 small { display:block; font-size: 13px; color: var(--ink-soft); letter-spacing: 4px; margin-top: 8px; font-weight: 400;}
+  .searchbar {
+    display:flex; justify-content:center; gap:10px; margin: 26px auto 8px; max-width: 640px; padding: 0 16px;
+  }
+  .searchbar input {
+    flex:1; font: inherit; font-size: 17px; padding: 12px 18px;
+    border: 1.5px solid var(--border); border-radius: 8px; background: var(--card);
+    color: var(--ink); outline: none; transition: border-color .2s;
+  }
+  .searchbar input:focus { border-color: var(--cinnabar); }
+  .searchbar button {
+    font: inherit; font-size: 16px; letter-spacing: 4px; padding: 12px 26px 12px 30px;
+    background: var(--cinnabar); color: #fff; border: none; border-radius: 8px; cursor: pointer;
+    transition: background .2s;
+  }
+  .searchbar button:hover { background: var(--cinnabar-soft); }
+  .hint { text-align:center; color: var(--ink-soft); font-size: 13px; }
+  .hint a { color: var(--cinnabar); text-decoration: none; }
+  .examples { display:flex; justify-content:center; flex-wrap:wrap; gap:8px; margin: 14px 16px 0; }
+  .examples button {
+    font: inherit; font-size: 13px; padding: 5px 14px; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--paper-deep); color: var(--ink-soft); cursor:pointer;
+    transition: all .2s;
+  }
+  .examples button:hover { border-color: var(--cinnabar); color: var(--cinnabar); }
+  main { max-width: 860px; margin: 30px auto 60px; padding: 0 16px; }
+  .status { text-align:center; color: var(--ink-soft); padding: 30px 0; }
+  .status .err { color: var(--cinnabar); }
+  .meta {
+    display:flex; flex-wrap:wrap; align-items:baseline; gap:12px;
+    border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 18px;
+  }
+  .meta b { font-size: 16px; }
+  .meta .total { color: var(--cinnabar); }
+  .corrected { color: var(--gold); font-size: 14px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 18px 22px; margin-bottom: 14px; position: relative;
+    box-shadow: 0 1px 3px rgba(80,60,30,.05); transition: box-shadow .2s, transform .2s;
+  }
+  .card:hover { box-shadow: 0 4px 14px rgba(80,60,30,.12); transform: translateY(-1px); }
+  .card .bookline { display:flex; align-items:baseline; flex-wrap:wrap; gap: 8px; margin-bottom: 8px; }
+  .card .bookname { font-size: 18px; font-weight: 700; color: var(--ink); }
+  .card .authors { color: var(--ink-soft); font-size: 13px; }
+  .card .edition {
+    font-size: 12px; color: var(--gold); border: 1px solid #e8d9b8; border-radius: 4px; padding: 1px 7px;
+  }
+  .card .chapter { font-size: 13px; color: var(--ink-soft); margin-bottom: 10px; }
+  .card .chapter::before { content: "卷"; color: var(--cinnabar); margin-right: 6px; font-weight: 700;}
+  .card .text { font-size: 16px; line-height: 2; letter-spacing: .5px; }
+  .card .text mark {
+    background: linear-gradient(transparent 55%, rgba(192,91,76,.28) 55%);
+    color: var(--cinnabar); font-weight: 700; padding: 0 1px;
+  }
+  .card .foot { margin-top: 10px; display:flex; justify-content: space-between; align-items:center; }
+  .card .foot a { color: var(--cinnabar); font-size: 13px; text-decoration: none; }
+  .card .foot a:hover { text-decoration: underline; }
+  .card .match { font-size: 12px; color: #8a7a4e; }
+  .reco { margin-top: 34px; }
+  .reco h2 { font-size: 18px; letter-spacing: 4px; margin-bottom: 14px; color: var(--ink); }
+  .reco h2::before { content: "◈ "; color: var(--cinnabar); }
+  .reco-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(190px,1fr)); gap: 12px; }
+  .reco a {
+    display:block; background: var(--card); border:1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px; text-decoration:none; color: var(--ink); transition: all .2s;
+  }
+  .reco a:hover { border-color: var(--cinnabar); }
+  .reco .rn { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  .reco .ra { font-size: 12px; color: var(--ink-soft); }
+  .banner {
+    max-width: 860px; margin: 18px auto 0; padding: 12px 18px; border-radius: 8px;
+    background: #fdf3e3; border: 1px solid #e8d3ac; color: #7a5a20; font-size: 14px; line-height: 1.8;
+    display:none;
+  }
+  .banner.show { display:block; }
+  .banner a { color: var(--cinnabar); font-weight: 700; }
+  .banner code { background:#fff; padding:1px 6px; border-radius:4px; font-family: ui-monospace, monospace; font-size:13px;}
+  footer { text-align:center; color: var(--ink-soft); font-size: 12px; padding: 30px 16px 40px; line-height: 1.8; }
+  @media (max-width: 600px) { h1 { font-size: 26px; letter-spacing: 6px; } }

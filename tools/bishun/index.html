@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='88'>✏️</text></svg>"
+    />
+    <title>笔顺小屋 · KidKit</title>
+    <link rel="stylesheet" href="/src/styles/home-link.css" />
+  </head>
+  <body>
+    <a class="home-link" href="../../">← 回到 KidKit 首页</a>
+    <div class="wrap">
+      <header>
+        <h1><span class="em">✏️</span> 笔顺小屋</h1>
+        <p>输入一个汉字，马上看到它有几笔、每一笔的先后顺序</p>
+      </header>
+
+      <div class="panel search">
+        <div class="inputBox">
+          <input
+            id="charInput"
+            maxlength="1"
+            placeholder="在这里输入一个汉字，如：大"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+        <button class="btn" id="goBtn">生成笔顺</button>
+        <div class="chips" id="chips"><span class="lab">试试：</span></div>
+      </div>
+
+      <div id="loading" class="panel loading hidden">
+        <div class="spin"></div>
+        <div id="loadingTxt">正在取笔顺数据…</div>
+      </div>
+
+      <div id="content" class="hidden">
+        <div class="main">
+          <section class="panel stage">
+            <div class="stageHead">
+              <div class="t">✍️ 跟着写一遍</div>
+              <div class="s" id="stageInfo">—</div>
+            </div>
+            <div class="stageBox" id="stageBox"></div>
+            <div class="stageCtl">
+              <button class="miniBtn play" id="playBtn">▶ 播放</button>
+              <button class="miniBtn" id="prevBtn">‹ 上一笔</button>
+              <button class="miniBtn" id="nextBtn">下一笔 ›</button>
+              <div class="speed" id="speed">
+                <button data-sp="slow">慢</button>
+                <button data-sp="normal" class="on">中</button>
+                <button data-sp="fast">快</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel steps">
+            <div class="stepsHead">
+              <div class="t">📖 笔顺分解<span class="s" id="stepsInfo">按顺序排列，红色是这一笔</span></div>
+              <button class="btn ghost" id="saveBtn">⬇️ 保存笔顺图</button>
+            </div>
+            <div class="grid" id="grid"></div>
+          </section>
+        </div>
+
+        <section class="panel game">
+          <div class="gameHead">
+            <div>
+              <div class="t">🎮 笔顺大挑战</div>
+              <div class="tip">按正确的笔顺，一笔一笔把这个字点亮吧！</div>
+            </div>
+            <div style="display: flex; gap: 10px">
+              <button class="btn" id="gameStart">开始挑战</button>
+              <button class="btn ghost" id="gameReset">重来</button>
+            </div>
+          </div>
+          <div class="gameBody">
+            <div class="gameBox" id="gameBox"></div>
+            <div class="score">
+              <div class="stat">
+                <div class="statItem"><div class="k">已点亮</div><div class="v" id="statOk">0</div></div>
+                <div class="statItem"><div class="k">总笔画</div><div class="v" id="statAll">0</div></div>
+                <div class="statItem"><div class="k">点错了</div><div class="v" id="statBad">0</div></div>
+              </div>
+              <div class="stars" id="stars"></div>
+              <div class="msg plain" id="gameMsg">点「开始挑战」，然后按笔顺点笔画。</div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="toast" id="toast"></div>
+
+    <script type="module" src="/src/tools/bishun/main.js"></script>
+  </body>
+</html>

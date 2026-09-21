@@ -1,0 +1,190 @@
+/* KidKit 首页样式：明亮的糖果色 + 大圆角卡片，突出「点一下就能用」 */
+
+:root {
+  --ink: #23304a;
+  --muted: #6b7a94;
+  --card: #ffffff;
+  --line: #e6ecf7;
+  --shadow: 0 10px 30px rgba(64, 110, 170, 0.12);
+  font-family: 'Nunito', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(ellipse at 8% -6%, #e2f1ff 0%, rgba(226, 241, 255, 0) 46%),
+    radial-gradient(ellipse at 96% -4%, #fff0e2 0%, rgba(255, 240, 226, 0) 42%),
+    radial-gradient(ellipse at 50% 108%, #e6fbf0 0%, rgba(230, 251, 240, 0) 46%),
+    #f8fbff;
+}
+
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 48px 20px 72px;
+}
+
+/* ---------- 顶部 ---------- */
+.hero {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: var(--shadow);
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #3b82f6;
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  font-family: 'Baloo 2', 'PingFang SC', system-ui, sans-serif;
+  font-size: clamp(30px, 5vw, 46px);
+  margin: 0 0 12px;
+  letter-spacing: 2px;
+}
+
+.hero-sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(14px, 2vw, 17px);
+}
+
+/* ---------- 工具卡片 ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 22px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 26px 24px 22px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 6px;
+  background: var(--c, #3b82f6);
+  opacity: 0.85;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(64, 110, 170, 0.2);
+}
+
+.card-emoji {
+  width: 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  font-size: 32px;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--c, #3b82f6) 14%, #ffffff);
+  margin-bottom: 16px;
+}
+
+.card-title {
+  font-size: 22px;
+  margin: 0 0 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.card-title small {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c, #3b82f6);
+  letter-spacing: 1px;
+}
+
+.card-desc {
+  margin: 10px 0 16px;
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.7;
+  flex: 1;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.tag {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #f2f6fc;
+  color: #55668a;
+  border: 1px solid var(--line);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.open-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 11px 18px;
+  border-radius: 14px;
+  background: var(--c, #3b82f6);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: filter 0.15s ease, transform 0.15s ease;
+}
+
+.open-btn:hover {
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+}
+
+.open-btn:focus-visible {
+  outline: 3px solid #1d4ed8;
+  outline-offset: 2px;
+}
+
+/* ---------- 页脚 ---------- */
+.footer {
+  margin-top: 48px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13.5px;
+}

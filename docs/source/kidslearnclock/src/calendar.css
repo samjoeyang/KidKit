@@ -1,0 +1,246 @@
+:root {
+  --pink: #ffd6ec;
+  --pink-deep: #ff6fa5;
+  --lavender: #e6d9ff;
+  --grape: #b497f5;
+  --sky: #8fd8ff;
+  --sun: #ffe066;
+  --sun-deep: #ffb703;
+  --plum: #4a2e5c;
+  --plum-soft: #7a5c94;
+  --shadow: rgba(122, 71, 148, 0.25);
+  font-family: "Nunito", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  overscroll-behavior: none;
+}
+
+body {
+  background: linear-gradient(160deg, var(--pink) 0%, var(--lavender) 45%, var(--sky) 100%);
+  color: var(--plum);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+#app {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 60px;
+  z-index: 1;
+}
+
+/* ---------- 飘浮装饰 ---------- */
+.deco {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.85;
+  animation: float 7s ease-in-out infinite;
+  filter: drop-shadow(0 6px 10px rgba(122,71,148,0.15));
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(6deg); }
+}
+.deco.slow { animation-duration: 10s; }
+.deco.rev { animation-direction: reverse; }
+
+/* ---------- 标题 ---------- */
+.title {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: clamp(26px, 6vw, 40px);
+  color: var(--pink-deep);
+  text-shadow: 3px 3px 0 var(--white), 0 6px 14px var(--shadow);
+  text-align: center;
+  margin: 6px 0 4px;
+  letter-spacing: 1px;
+}
+.subtitle {
+  font-weight: 700;
+  color: var(--plum-soft);
+  text-align: center;
+  margin-bottom: 18px;
+  font-size: clamp(13px, 3vw, 16px);
+}
+
+/* ---------- 年份控制条 ---------- */
+.year-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--white);
+  padding: 10px 16px;
+  border-radius: 999px;
+  box-shadow: 0 8px 20px var(--shadow);
+  margin-bottom: 22px;
+  position: relative;
+  z-index: 2;
+}
+.year-btn {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 1;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--pink-deep), var(--grape));
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.12);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.year-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
+}
+.year-edit {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.year-input {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 26px;
+  color: var(--pink-deep);
+  width: 6.5ch;
+  text-align: center;
+  border: none;
+  background: transparent;
+  outline: none;
+  -moz-appearance: textfield;
+}
+.year-input::-webkit-outer-spin-button,
+.year-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.year-unit {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--plum-soft);
+}
+.today-btn {
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  border: none;
+  border-radius: 999px;
+  padding: 9px 14px;
+  cursor: pointer;
+  color: var(--plum);
+  background: var(--sun);
+  box-shadow: 0 4px 0 var(--sun-deep);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.today-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--sun-deep);
+}
+
+/* ---------- 月份网格 ---------- */
+.months {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  width: min(1120px, 100%);
+}
+.month-card {
+  background: var(--white);
+  border-radius: 22px;
+  padding: 14px 12px 12px;
+  box-shadow: 0 10px 24px var(--shadow);
+  border: 3px solid #fff;
+}
+.month-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--white);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+  padding: 8px 10px;
+  border-radius: 14px;
+  margin-bottom: 8px;
+}
+.month-head .days {
+  font-size: 12.5px;
+  font-weight: 700;
+  opacity: 0.95;
+}
+
+/* ---------- 星期表头 + 日期格 ---------- */
+.cal-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: 700;
+}
+.cal-week.dow {
+  color: var(--plum-soft);
+  font-size: 12px;
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+  border-bottom: 2px dashed #f3e8ff;
+}
+.cal-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 2px;
+}
+.day {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--plum);
+  border-radius: 8px;
+}
+.day.empty { color: transparent; }
+.day.weekend { color: var(--pink-deep); }
+.day.today {
+  background: var(--sun);
+  color: var(--plum);
+  box-shadow: 0 3px 0 var(--sun-deep);
+}
+
+/* ---------- 返回链接 ---------- */
+.back-link {
+  margin-top: 28px;
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--sky), var(--grape));
+  padding: 11px 24px;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 6px 14px rgba(122, 71, 148, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.back-link:hover { transform: translateY(-2px); }
+.back-link:active { transform: translateY(2px); }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>识典古籍 · 史料检索 · KidKit</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📜%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="/src/styles/home-link.css" />
+  </head>
+  <body>
+    <a class="home-link" href="../../">← 回到 KidKit 首页</a>
+
+    <header>
+      <div class="seal">識典</div>
+      <h1>史 料 檢 索<small>数据来源：识典古籍 shidianguji.com · 免费古籍平台</small></h1>
+    </header>
+
+    <div class="searchbar">
+      <input id="q" type="text" placeholder="输入关键词，如：史记、資治通鑑、貞觀、王安石…" autofocus />
+      <button id="searchBtn" type="button">檢索</button>
+    </div>
+    <div class="examples" id="examples"></div>
+    <p class="hint">
+      支持繁简混合检索 · 精确匹配可在关键词外加 <a href="#" id="quoteHint">英文引号</a>
+    </p>
+
+    <div class="banner" id="banner"></div>
+
+    <main id="main">
+      <div class="status">以词索史，遍检千帙。请输入关键词开始。</div>
+    </main>
+
+    <footer>
+      本工具为个人检索辅助，正文数据实时来自「识典古籍」公开搜索页，版权归原整理者与平台所有。<br />
+      点击书目卡片可跳转识典古籍官网阅读全文（免费注册即可）。
+    </footer>
+
+    <script type="module" src="/src/tools/shidianguji/main.js"></script>
+  </body>
+</html>
